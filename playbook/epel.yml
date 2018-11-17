@@ -1,0 +1,6 @@
+---
+  - hosts: all
+    become: true
+    tasks:
+      - name: install epel on all host
+        yum: name=epel-release state=present update_cache=yes

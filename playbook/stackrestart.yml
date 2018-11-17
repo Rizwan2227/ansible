@@ -1,0 +1,31 @@
+---
+  - hosts: loadbalancer
+    become: ture
+    tasks:
+      - name: stop loadbalancer
+        service: name=nginx state=stopped
+
+  - hosts: webserver
+    become: ture
+    tasks:
+      - name: stop apache service in webserver
+        service: name=httpd state=stopped
+
+  - hosts: database
+    become: ture
+    tasks:
+      - name: restart database server
+        service: name=mysqld state=restarted
+
+  - hosts: webserver
+    become: ture
+    tasks:
+      - name: start apache service in webserver
+        service: name=httpd state=started
+
+  - hosts: loadbalancer
+    become: ture
+    tasks:
+      - name: start loadbalancer
+        service: name=nginx state=started
+        

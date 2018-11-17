@@ -1,0 +1,17 @@
+---
+  - hosts: database
+    become:  true
+    tasks:
+      - name: Install mysqlrepo
+        yum: name=http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm state=present
+        when: ansible_os_family == "RedHat"
+
+
+      - name: Install tools for mysql
+        yum: name={{item}} state=present update_cache=yes
+        with_items:
+          - MySQL-python
+          - mysql-server
+
+      - name: ensure mysql is running
+        service: name=mysqld state=started enabled=yes
